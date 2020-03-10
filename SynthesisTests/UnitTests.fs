@@ -13,6 +13,10 @@ TO DO TESTING, but it is convenient for this prac.
 
 [<Test>]
 let ``abelar`` () =
+    let abelar a =
+        match a with
+        | a when (a>12 && a<3097 && a%12=0) -> true
+        | _ -> false
     abelar 0 |> should equal false
     abelar 12 |> should equal false
     abelar 13 |> should equal false
@@ -24,6 +28,10 @@ let ``abelar`` () =
 
 [<Test>]
 let ``area`` () =
+    let area b h = 
+        match (b<0.0 || h<0.0) with
+        | true -> failwith "Wrong"
+        | _ -> 0.5*b*h
     area 15.0 23.0 |> should equal 172.5
     (fun () -> area -4.0 -10.0) |> shouldFail
     (fun () -> area -5.0 11.0) |> shouldFail
