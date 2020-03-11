@@ -45,6 +45,10 @@ let ``area`` () =
 
 [<Test>]
 let ``zollo`` () =
+    let zollo a = 
+        match a<0 with
+        | true -> a * -1
+        | _ -> a*2
     zollo 10 |> should equal 20
     zollo 0 |> should equal 0
     zollo -1 |> should equal 1
@@ -53,6 +57,10 @@ let ``zollo`` () =
 
 [<Test>]
 let ``min`` () =
+    let min a b=
+        match a<b with
+        | true -> a
+        | _ -> b
     min 0 0 |> should equal 0
     min 5 5 |> should equal 5
     min 5 -5 |> should equal -5
@@ -66,6 +74,10 @@ let ``min`` () =
 
 [<Test>]
 let ``max`` () =
+    let max a b =
+        match a>b with
+        | true -> a
+        | _ -> b
     max 0 0 |> should equal 0
     max 5 5 |> should equal 5
     max 5 -5 |> should equal 5
@@ -79,6 +91,7 @@ let ``max`` () =
 
 [<Test>]
 let ``ofTime`` () =
+    let ofTime a b c = a*3600 + b*60 + c
     ofTime 0 0 0 |> should equal 0
     ofTime 5 0 0 |> should equal 18000
     ofTime 0 5 0 |> should equal 300
@@ -91,6 +104,13 @@ let ``ofTime`` () =
 
 [<Test>]
 let ``toTime`` () =
+    let toTime a = 
+        let hours = a/3600
+        let minutes = a%3600/60
+        let seconds = a%3600%60
+        match a<0 with
+        | true -> (0,0,0)
+        |false -> (hours,minutes,seconds)
     toTime 0 |> should equal (0,0,0)
     toTime 18000 |> should equal (5,0,0)
     toTime 300 |> should equal (0,5,0)
@@ -173,6 +193,23 @@ let ``isLeap`` () =
 
 [<Test>]
 let ``month`` () =
+    let month a =
+        let days = (31,28,31,30,31,30,31,31,30,31,30,31)
+        match a with
+        | 1 -> ("January",31)  
+        | 2 -> ("February",28)
+        | 3 -> ("March",31)
+        | 4 -> ("April",30)
+        | 5 -> ("May",31)
+        | 6 -> ("June",30)
+        | 7 -> ("July",31)
+        | 8 -> ("August",31)
+        | 9 -> ("September",30)
+        | 10 -> ("October",31)
+        | 11 -> ("November",30)
+        | 12 -> ("December",31)
+        | _ -> failwith"Wrong"
+
     month 1 |> should equal ("January", 31)
     month 2 |> should equal ("February", 28)
     month 3 |> should equal ("March", 31)
