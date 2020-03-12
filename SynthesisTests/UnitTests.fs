@@ -14,10 +14,7 @@ TO DO TESTING, but it is convenient for this prac.
 
 [<Test>]
 let ``abelar`` () =
-    let abelar a =
-        match a with
-        | a when (a>12 && a<3097 && a%12=0) -> true
-        | _ -> false
+    
     abelar 0 |> should equal false
     abelar 12 |> should equal false
     abelar 13 |> should equal false
@@ -29,10 +26,7 @@ let ``abelar`` () =
 
 [<Test>]
 let ``area`` () =
-    let area b h = 
-        match (b<0.0 || h<0.0) with
-        | true -> failwith "Wrong"
-        | _ -> 0.5*b*h
+    
     area 15.0 23.0 |> should equal 172.5
     (fun () -> area -4.0 -10.0) |> shouldFail
     (fun () -> area -5.0 11.0) |> shouldFail
@@ -46,10 +40,6 @@ let ``area`` () =
 
 [<Test>]
 let ``zollo`` () =
-    let zollo a = 
-        match a<0 with
-        | true -> a * -1
-        | _ -> a*2
     zollo 10 |> should equal 20
     zollo 0 |> should equal 0
     zollo -1 |> should equal 1
@@ -58,10 +48,7 @@ let ``zollo`` () =
 
 [<Test>]
 let ``min`` () =
-    let min a b=
-        match a<b with
-        | true -> a
-        | _ -> b
+    
     min 0 0 |> should equal 0
     min 5 5 |> should equal 5
     min 5 -5 |> should equal -5
@@ -75,10 +62,7 @@ let ``min`` () =
 
 [<Test>]
 let ``max`` () =
-    let max a b =
-        match a>b with
-        | true -> a
-        | _ -> b
+    
     max 0 0 |> should equal 0
     max 5 5 |> should equal 5
     max 5 -5 |> should equal 5
@@ -92,7 +76,7 @@ let ``max`` () =
 
 [<Test>]
 let ``ofTime`` () =
-    let ofTime a b c = a*3600 + b*60 + c
+    
     ofTime 0 0 0 |> should equal 0
     ofTime 5 0 0 |> should equal 18000
     ofTime 0 5 0 |> should equal 300
@@ -105,13 +89,6 @@ let ``ofTime`` () =
 
 [<Test>]
 let ``toTime`` () =
-    let toTime a = 
-        let hours = a/3600
-        let minutes = a%3600/60
-        let seconds = a%3600%60
-        match a<0 with
-        | true -> (0,0,0)
-        |false -> (hours,minutes,seconds)
     toTime 0 |> should equal (0,0,0)
     toTime 18000 |> should equal (5,0,0)
     toTime 300 |> should equal (0,5,0)
@@ -172,12 +149,7 @@ let ``minmax`` () =
 
 [<Test>]
 let ``isLeap`` () =
-    let isLeap a = 
-        match a with
-        | a when a<1582 -> failwith"Invalid"
-        | a when a%400=0 -> true 
-        | a when a%4=0 && a%100<>0 -> true
-        | _ -> false
+    
     (fun () -> isLeap 1581) |> shouldFail
     (fun () -> isLeap -3) |> shouldFail
     isLeap 1582 |> should equal false
@@ -200,23 +172,6 @@ let ``isLeap`` () =
     
 [<Test>]
 let ``month`` () =
-    let month a =
-        let days = (31,28,31,30,31,30,31,31,30,31,30,31)
-        match a with
-        | 1 -> ("January",31)  
-        | 2 -> ("February",28)
-        | 3 -> ("March",31)
-        | 4 -> ("April",30)
-        | 5 -> ("May",31)
-        | 6 -> ("June",30)
-        | 7 -> ("July",31)
-        | 8 -> ("August",31)
-        | 9 -> ("September",30)
-        | 10 -> ("October",31)
-        | 11 -> ("November",30)
-        | 12 -> ("December",31)
-        | _ -> failwith"Wrong"
-
     month 1 |> should equal ("January", 31)
     month 2 |> should equal ("February", 28)
     month 3 |> should equal ("March", 31)
@@ -235,16 +190,6 @@ let ``month`` () =
 
 [<Test>]
 let ``toBinary`` () =
-    let toBinary a :string =
-        let rec changeBin b c:string =
-                match b with
-                | b when b=0 -> c+"0"
-                | b when b%2=0 -> changeBin (b/2) "0" 
-                | b when b%2=1 -> changeBin (b/2) "1"
-        match a<0 with
-        |true -> failwith"Invalid"
-        |false -> changeBin a ""
-        
     toBinary 0 |> should equal "0"
     toBinary 1 |> should equal "1"
     (fun () -> toBinary -1) |> shouldFail
@@ -257,26 +202,13 @@ let ``toBinary`` () =
 
 [<Test>]
 let ``bizFuzz`` () =
-    let bizFuzz a =
-        let rec counter b (three,five,both)= 
-             match b with
-             | b when (b=0) -> (three, five, both)
-             | b when (b%3=0 && b%5=0) -> counter (b-1) (three,five,both+1)
-             | b when (b%3=0) ->  counter (b-1) (three+1,five,both)
-             | b when (b%5=0) -> counter (b-1) (three,five+1,both)
-             | _ -> counter (b-1) (three,five,both)
-
-        match a with
-        | a when a<0 -> (0,0,0)
-        | _ -> counter a (0,0,0)
-
     bizFuzz 1 |> should equal (0,0,0)
     bizFuzz 3 |> should equal (1,0,0)
     bizFuzz 5 |> should equal (1,1,0)
     bizFuzz 10 |> should equal (3,2,0)
     bizFuzz -8 |> should equal (0,0,0)
-    //bizFuzz 200 |> should equal (66,40,13)
-    //bizFuzz 99186 |> should equal (33062, 19837, 6612)
+    bizFuzz 200 |> should equal (66,40,13)
+    bizFuzz 99186 |> should equal (33062, 19837, 6612)
 
 [<Test>]
 let ``monthDay`` () =
