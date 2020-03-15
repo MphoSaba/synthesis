@@ -97,5 +97,11 @@ let bizFuzz a =
 let monthDay _ _ =
     failwith "Not implemented"
 
-let coord _ =
-    failwith "Not implemented"
+let coord __ =
+    failwith"Not implemented"
+(*
+    let (c,d)  = a
+    let (e,f) = b
+    let dist = ((c-e)**2.0 + (d-f)**2.0)**0.5
+    let within g h i j = *)
+        
